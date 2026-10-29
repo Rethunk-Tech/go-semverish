@@ -15,6 +15,11 @@ cannot resolve that check from PATH.
 - `Build` is kept only so `String` can write it back; no comparison reads it.
 - `CompareDotNet` is a separate function, not a mode: the two disagree on a missing part (0 against -1), and a flag would make every caller choose.
 - The regexp, `comparePre` and the .NET parser stay unexported: the API is the contract, not the grammar's spelling.
+- No constraint or range language and no switch for the `unofficial` rule: every consumer compares two versions or
+  checks a minimum.
+- Not built on `golang.org/x/mod/semver` (needs the `v`, refuses four numbers and leading zeros, and two invalid
+  strings compare equal) or Masterminds/semver (refuses four numbers, compares prereleases case-sensitively, has
+  neither SMAPI rule); neither has a `System.Version` order.
 - Leniency (leading zeros, `0.0.0`, `V`) is deliberate: Nexus and GitHub versions are hand-typed and never passed SMAPI's parser. Rejecting them would make a version unorderable for no gain.
 
 ## Files

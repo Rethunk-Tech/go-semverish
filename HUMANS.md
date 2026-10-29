@@ -58,6 +58,17 @@ func main() {
 | `1.0-beta.` | does not parse | parses |
 | `V1.0`, `01.2`, `0.0.0` | parse | `V1.0` and `0.0.0` refused |
 
+### `CompareDotNet` against .NET's `System.Version`
+
+Measured on .NET 10; BepInEx 5 on Mono follows the same reference-source rules (`Version.cs`).
+
+| Input | Result |
+| --- | --- |
+| `1.0` against `1.0.0` | `-1`: an unset part is -1 |
+| `1.0.0` against `1.0.0.0` | `-1` |
+| `1.0.0-beta`, `v1.0`, `1`, `1.2.3.4.5`, `3000000000.0` | do not parse |
+| `01.2`, ` 1.2 `, `+1.2`, `1. 2` | parse, equal to `1.2` |
+
 ## Requirements
 
 Go 1.27.3 or newer, plus `lefthook` and `gitleaks` on PATH if you want the git hooks.
