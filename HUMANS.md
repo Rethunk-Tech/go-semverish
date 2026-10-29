@@ -8,13 +8,55 @@ Run and use `go-semverish`. Internals: [AGENTS.md](AGENTS.md).
 go get github.com/Rethunk-Tech/go-semverish
 ```
 
-<!-- scaffold: the smallest complete Go example of the main entry point, compiled in your head
-against the real API: imports implied, errors handled. -->
+```go
+package main
+
+import (
+	"fmt"
+	"slices"
+
+	"github.com/Rethunk-Tech/go-semverish"
+)
+
+func main() {
+	c, ok := semverish.Compare("1.0-beta-10", "1.0-beta-2")
+	fmt.Println(c, ok) // 1 true
+
+	tags := []string{"v1.2", "1.10.0", "1.2.0-unofficial.1-x"}
+	slices.SortStableFunc(tags, func(a, b string) int {
+		c, _ := semverish.Compare(a, b)
+		return c
+	})
+	fmt.Println(tags)
+
+	v, _ := semverish.Parse("V2.0.1-rc.1+build5")
+	fmt.Println(v.String()) // 2.0.1-rc.1+build5
+
+	d, ok := semverish.CompareDotNet("1.0", "1.0.0")
+	fmt.Println(d, ok) // -1 true
+}
+```
 
 ## Contracts
 
-<!-- scaffold: a two-column table, one row per exported entry point or behaviour a caller depends
-on: what it refuses, what it guarantees on failure, what it never does. -->
+| Behaviour | Guarantee |
+| --- | --- |
+| `Compare`, `CompareDotNet` | `ok` is false and the order 0 when either string does not parse; the caller picks the policy |
+| `Parse` | Accepts two to four numbers, `v` or `V`, surrounding whitespace, leading zeros and `0.0.0`; refuses one number, five numbers, a number past `int`, and an empty prerelease identifier (`1.0-a..b`, `1.0-beta.`) |
+| `Version.Compare` | A total order: release above its prereleases, `Build` ignored, identifiers compared ignoring case, numeric identifiers by value below alphanumeric ones, `unofficial` lowest |
+| `Version.String` | `M.m.p[.platform][-pre][+build]`, no `v`; a zero `Platform` is omitted, so `Parse(v.String())` orders equal to `v` |
+| `CompareDotNet` | Two to four plain numbers; a missing part ranks below 0 (`1.0` < `1.0.0` < `1.0.0.0`); a prefix, a suffix, one number or a part past int32 is not a version |
+| Panics | Never, on any string |
+
+### Where SMAPI's order is not followed
+
+| Input | Here | SMAPI |
+| --- | --- | --- |
+| `1.0-5` against `1.0-10a` | `<` (numeric below alphanumeric) | `>` (compared as text) |
+| `1.0-3000000000` against `1.0-9` | `>` (by value) | `<` (does not fit int32, so text) |
+| `1.0-Beta.2` against `1.0-beta.1` | `>` (comparison continues past a case-only tie) | `=` |
+| `1.0-beta.` | does not parse | parses |
+| `V1.0`, `01.2`, `0.0.0` | parse | `V1.0` and `0.0.0` refused |
 
 ## Requirements
 

@@ -14,10 +14,10 @@ Please do not open a public issue for a suspected vulnerability first.
 
 ## What is in scope
 
-<!-- scaffold: the untrusted inputs this package handles, and each property a crafted input must not
-break (an escape, an unbounded allocation, a panic). One bullet each, naming the API. -->
+- Every function takes version strings from remote data (mod pages, tags, manifests). No input may panic, allocate more than a few times its own length, or make the order intransitive; `FuzzCompare` and `FuzzCompareDotNet` check the order laws and `Parse`'s round trip.
+- A number or prerelease identifier too large for its type must be refused or compared by value, never wrapped.
 
 ## What is out of scope
 
-<!-- scaffold: what the caller is trusted to have checked already, and behaviour that is intended
-rather than a vulnerability. -->
+- Deciding what an unparseable version means (`ok == false`) is the caller's policy.
+- A version that is ordered but not a real release, such as `0.0.0` or a hand-typed leading zero, is accepted on purpose.

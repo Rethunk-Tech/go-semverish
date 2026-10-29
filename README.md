@@ -11,8 +11,7 @@
 
 Lenient version comparison for mod-loader ecosystems: loose semver as SMAPI and BepInEx read it, and .NET System.Version ordering. Package `semverish`, module `github.com/Rethunk-Tech/go-semverish`.
 
-<!-- scaffold: one short paragraph on what the package guarantees and why it exists, in plain
-words. -->
+Mod authors and mod managers write versions loosely: `v1.2`, `1.0.0.1`, `1.0-beta-2`, `2.0-unofficial.3-author`. `semverish` orders them the way SMAPI does, never panics on a string it cannot read, and says so (`ok == false`) instead of guessing. `CompareDotNet` orders them the way .NET's `System.Version` does, which BepInEx 5 uses. Standard library only.
 
 ## Quick start
 
@@ -24,7 +23,11 @@ A worked example and the contracts: [HUMANS.md](HUMANS.md).
 
 ## Features
 
-<!-- scaffold: 3 to 6 bullets, each a capability a caller can rely on. No roadmap. -->
+- `Compare` orders two strings, and `Parse` plus `Version.Compare` order without re-parsing.
+- Two to four numbers, a missing number is 0, an optional `v` or `V`, build metadata ignored.
+- SMAPI's prerelease rules: `.` and `-` both separate identifiers, `unofficial` ranks lowest.
+- Prerelease numbers of any length compare by value, so a hostile string cannot break transitivity.
+- `CompareDotNet` follows `System.Version`: `1.0` is below `1.0.0`, and `1.0.0-beta` is not a version.
 
 ## Documentation
 
