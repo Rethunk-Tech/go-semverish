@@ -135,3 +135,12 @@ func comparePre(a, b string) int {
 func isDigits(s string) bool {
 	return !strings.ContainsFunc(s, func(r rune) bool { return r < '0' || r > '9' })
 }
+
+// Equal reports whether a and b are the same version: both parse and compare equal ("1.2" and "1.2.0"), or,
+// when either does not parse, the strings are identical.
+func Equal(a, b string) bool {
+	if c, ok := Compare(a, b); ok {
+		return c == 0
+	}
+	return a == b
+}

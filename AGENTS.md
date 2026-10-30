@@ -26,5 +26,5 @@ cannot resolve that check from PATH.
 
 | File | Holds |
 | --- | --- |
-| `semverish.go` | `Version`, `Parse`, `String`, `Compare`, the prerelease comparator |
+| `semverish.go` | `Version`, `Parse`, `String`, `Compare`, `Equal`, the prerelease comparator |
 | `dotnet.go` | `CompareDotNet` and its parser |

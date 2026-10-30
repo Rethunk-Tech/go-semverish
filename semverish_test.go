@@ -202,3 +202,22 @@ func FuzzCompareDotNet(f *testing.F) {
 		orderLaws(t, CompareDotNet, a, b, c)
 	})
 }
+
+func TestEqual(t *testing.T) {
+	for _, tc := range []struct {
+		a, b string
+		want bool
+	}{
+		{"1.0", "1.0.0", true},
+		{"v1.2", "1.2.0+build", true},
+		{"1.0", "1.1", false},
+		{"not-a-version", "not-a-version", true},
+		{"", "", true},
+		{"not-a-version", "other", false},
+		{"1.0", "one", false},
+	} {
+		if got := Equal(tc.a, tc.b); got != tc.want {
+			t.Errorf("Equal(%q, %q) = %v, want %v", tc.a, tc.b, got, tc.want)
+		}
+	}
+}

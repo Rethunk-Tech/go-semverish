@@ -41,6 +41,7 @@ func main() {
 
 | Behaviour | Guarantee |
 | --- | --- |
+| `Equal` | True when both strings parse and compare equal (`1.0` and `1.0.0`); when either does not parse, true only for identical strings |
 | `Compare`, `CompareDotNet` | `ok` is false and the order 0 when either string does not parse; the caller picks the policy |
 | `Parse` | Accepts two to four numbers, `v` or `V`, surrounding whitespace, leading zeros and `0.0.0`; refuses one number, five numbers, a number past `int`, and an empty prerelease identifier (`1.0-a..b`, `1.0-beta.`) |
 | `Version.Compare` | A total order: release above its prereleases, `Build` ignored, identifiers compared ignoring case, numeric identifiers by value below alphanumeric ones, `unofficial` lowest |

@@ -6,6 +6,10 @@ Notable changes to `go-semverish`. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `Equal` reports two version strings as the same version when both parse and compare equal, and otherwise only when they are identical.
+
 ## [0.1.0] - 2026-10-29
 
 ### Added
