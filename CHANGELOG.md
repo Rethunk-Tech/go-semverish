@@ -6,6 +6,8 @@ Notable changes to `go-semverish`. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-30
+
 ### Added
 
 - `Equal` reports two version strings as the same version when both parse and compare equal, and otherwise only when they are identical.
@@ -18,5 +20,6 @@ Notable changes to `go-semverish`. The format follows
 - `Version.String` writes a parsed version back as `M.m.p[.platform][-pre][+build]`.
 - `CompareDotNet` orders versions the way .NET's `System.Version` does.
 
-[Unreleased]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Rethunk-Tech/go-semverish/releases/tag/v0.1.0
