@@ -18,11 +18,20 @@ type Version struct {
 	Pre, Build string
 }
 
+// MaxLen is the longest version Parse and CompareDotNet read, in bytes; a longer string is not a version. Real
+// versions are a few dozen bytes, and every Compare walks both prereleases, so the bound keeps one hostile string
+// from costing a comparison its length.
+const MaxLen = 256
+
 // Parse reads a version: two to four numbers, an optional leading v or V, an optional -prerelease whose
 // identifiers are separated by '.' or '-', and optional +build, with surrounding whitespace trimmed. Leading
 // zeros are accepted.
 func Parse(s string) (Version, bool) {
-	m := pattern.FindStringSubmatch(strings.TrimSpace(s))
+	s = strings.TrimSpace(s)
+	if len(s) > MaxLen {
+		return Version{}, false
+	}
+	m := pattern.FindStringSubmatch(s)
 	if m == nil {
 		return Version{}, false
 	}

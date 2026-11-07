@@ -2,6 +2,7 @@ package semverish
 
 import (
 	"slices"
+	"strings"
 	"testing"
 )
 
@@ -219,5 +220,26 @@ func TestEqual(t *testing.T) {
 		if got := Equal(tc.a, tc.b); got != tc.want {
 			t.Errorf("Equal(%q, %q) = %v, want %v", tc.a, tc.b, got, tc.want)
 		}
+	}
+}
+
+func TestAHugeVersionIsNotAVersion(t *testing.T) {
+	for name, s := range map[string]string{
+		"dots":       strings.Repeat(".", 10<<20),
+		"prerelease": "1.0-" + strings.Repeat("a.", 5<<20) + "a",
+		"digits":     "1.0-" + strings.Repeat("9", MaxLen),
+	} {
+		if _, ok := Parse(s); ok {
+			t.Errorf("%s: Parse accepted %d bytes", name, len(s))
+		}
+		if c, ok := CompareDotNet(s, "1.0"); ok || c != 0 {
+			t.Errorf("%s: CompareDotNet = %d, %v", name, c, ok)
+		}
+		if c, ok := Compare(s, "1.0"); ok || c != 0 {
+			t.Errorf("%s: Compare = %d, %v", name, c, ok)
+		}
+	}
+	if _, ok := Parse("1.0-" + strings.Repeat("a", MaxLen-4)); !ok {
+		t.Error("a version at the limit was refused")
 	}
 }

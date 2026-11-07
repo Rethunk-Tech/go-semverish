@@ -19,7 +19,11 @@ func CompareDotNet(a, b string) (c int, ok bool) {
 }
 
 func parseDotNet(s string) (v [4]int, ok bool) {
-	parts := strings.Split(s, ".")
+	if len(s) > MaxLen {
+		return v, false
+	}
+	// One part past the limit is enough to refuse, so a string of dots never builds a slice of its length.
+	parts := strings.SplitN(s, ".", 5)
 	if len(parts) < 2 || len(parts) > 4 {
 		return v, false
 	}
