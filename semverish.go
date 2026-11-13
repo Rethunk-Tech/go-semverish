@@ -46,7 +46,12 @@ func Parse(s string) (Version, bool) {
 		}
 		nums[i] = n
 	}
-	return Version{nums[0], nums[1], nums[2], nums[3], m[5], m[6]}, true
+	v := Version{nums[0], nums[1], nums[2], nums[3], m[5], m[6]}
+	// String fills in missing numbers, so a string at the limit could write back longer than MaxLen and not re-parse.
+	if len(v.String()) > MaxLen {
+		return Version{}, false
+	}
+	return v, true
 }
 
 // String writes "M.m.p[.platform][-pre][+build]" without a v. The platform number is left out when 0.
