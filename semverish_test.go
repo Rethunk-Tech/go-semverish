@@ -239,7 +239,7 @@ func TestAHugeVersionIsNotAVersion(t *testing.T) {
 			t.Errorf("%s: Compare = %d, %v", name, c, ok)
 		}
 	}
-	if _, ok := Parse("1.0-" + strings.Repeat("a", MaxLen-4)); !ok {
+	if _, ok := Parse("1.0-" + strings.Repeat("a", MaxLen-6)); !ok {
 		t.Error("a version at the limit was refused")
 	}
 }

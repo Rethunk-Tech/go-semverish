@@ -18,7 +18,8 @@ type Version struct {
 	Pre, Build string
 }
 
-// MaxLen is the longest version Parse and CompareDotNet read, in bytes; a longer string is not a version. Real
+// MaxLen is the longest version Parse and CompareDotNet read, in bytes (for Parse, as String writes it back); a longer
+// string is not a version. Real
 // versions are a few dozen bytes, and every Compare walks both prereleases, so the bound keeps one hostile string
 // from costing a comparison its length.
 const MaxLen = 256
