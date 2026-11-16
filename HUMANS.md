@@ -72,7 +72,7 @@ Measured on .NET 10; BepInEx 5 on Mono follows the same reference-source rules (
 
 ## Requirements
 
-Go 1.27.3 or newer, plus `lefthook` and `gitleaks` on PATH if you want the git hooks.
+Go 1.27.4 or newer, plus `lefthook` and `gitleaks` on PATH if you want the git hooks.
 
 ```bash
 lefthook install
