@@ -243,3 +243,18 @@ func TestAHugeVersionIsNotAVersion(t *testing.T) {
 		t.Error("a version at the limit was refused")
 	}
 }
+
+func TestAnOverflowedNumericPartIsNotAVersion(t *testing.T) {
+	// Atoi's width follows int, so twenty nines overflow on 32- and 64-bit.
+	s := strings.Repeat("9", 20) + ".0"
+	if _, ok := Parse(s); ok {
+		t.Errorf("Parse accepted %q", s)
+	}
+}
+
+func TestAlphanumericPrereleasesOrderIgnoringCase(t *testing.T) {
+	got, ok := Compare("1.0-alpha", "1.0-BETA")
+	if !ok || got != -1 {
+		t.Errorf("Compare(%q, %q) = %d, %v; want -1", "1.0-alpha", "1.0-BETA", got, ok)
+	}
+}
