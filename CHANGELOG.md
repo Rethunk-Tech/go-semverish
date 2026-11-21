@@ -6,6 +6,10 @@ Notable changes to `go-semverish`. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- `Parse` refuses a version whose `String` would exceed `MaxLen` and not re-parse.
+
 ## [0.3.0] - 2026-11-07
 
 ### Added
