@@ -6,6 +6,8 @@ Notable changes to `go-semverish`. The format follows
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-21
+
 ### Fixed
 
 - `Parse` refuses a version whose `String` would exceed `MaxLen` and not re-parse.
@@ -34,7 +36,8 @@ Notable changes to `go-semverish`. The format follows
 - `Version.String` writes a parsed version back as `M.m.p[.platform][-pre][+build]`.
 - `CompareDotNet` orders versions the way .NET's `System.Version` does.
 
-[Unreleased]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Rethunk-Tech/go-semverish/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Rethunk-Tech/go-semverish/releases/tag/v0.1.0
